@@ -1,0 +1,29 @@
+[package]
+name = "soroban-sql-sync"
+version = "0.1.0"
+edition = "2021"
+authors = ["ExcelDsigN-tech"]
+description = "A high-performance Soroban event indexer bridging Stellar to PostgreSQL."
+
+[dependencies]
+# Async Runtime for high-concurrency
+tokio = { version = "1.0", features = ["full"] }
+
+# Database logic (PostgreSQL)
+sqlx = { version = "0.7", features = ["runtime-tokio-rustls", "postgres", "macros"] }
+
+# Stellar & Soroban SDKs
+soroban-sdk = "22.0.0"
+stellar-rpc-client = "0.1.0"
+
+# Utilities
+serde = { version = "1.0", features = ["derive"] }
+dotenvy = "0.15"
+tracing = "0.1"
+
+[profile.release]
+opt-level = "z"
+overflow-checks = true
+lto = true
+codegen-units = 1
+panic = "abort"
