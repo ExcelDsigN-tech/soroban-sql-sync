@@ -32,31 +32,66 @@ Built with a senior-level backend stack, this indexer is optimized for high-thro
   - PostgreSQL 14+
   - A Stellar/Soroban RPC endpoint
 
-### Installation
+### Installation & Local Setup
 
 1.  **Clone the repository:**
     ```bash
     git clone https://github.com/ExcelDsigN-tech/soroban-sql-sync.git
     cd soroban-sql-sync
     ```
+
 2.  **Configure Environment:**
-    Create a `.env` file (this is ignored by git for security):
-    ```text
-    DATABASE_URL=postgres://user:password@localhost/soroban_db
-    RPC_URL=https://soroban-testnet.stellar.org:443
-    NETWORK_PASSPHRASE=Test SDF Network ; September 2015
+    ```bash
+    cp .env.example .env
+    # Edit .env with your PostgreSQL and Stellar RPC credentials
     ```
-3.  **Build the project:**
+
+3.  **Install Dependencies:**
+    ```bash
+    cargo check
+    ```
+
+4.  **Set Up Database:**
+    ```bash
+    # Install sqlx-cli if needed
+    cargo install sqlx-cli --no-default-features --features postgres
+    
+    # Create database
+    createdb soroban_sql_sync
+    
+    # Run migrations
+    sqlx migrate run
+    ```
+
+5.  **Build and Run:**
     ```bash
     cargo build --release
+    cargo run
     ```
+
+## 📋 Project Roadmap
+
+See [ROADMAP.md](./ROADMAP.md) for detailed phase breakdown and [GitHub Issues](https://github.com/ExcelDsigN-tech/soroban-sql-sync/issues) for current work.
+
+### Phase 1: Foundation (In Progress)
+- Core project architecture and dependency setup
+- PostgreSQL schema design and migrations
+- Smart contract event schema specification
+
+See [PHASE_1_LAUNCH.md](./PHASE_1_LAUNCH.md) for deployment instructions.
 
 ## ⚖️ License
 
 This project is licensed under the **MIT License** - see the [LICENSE](./LICENSE) file for details.
 
-## 🤝 Contribution & Wave 4
+## 🤝 Contribution & Stellar Wave
 
-This project is part of **Stellar Wave 4**. We welcome contributions from the community. Please check the **Issues** tab for current milestones and tasks.
+This project is part of **Stellar Wave** initiative. We welcome contributions from the community.
+
+**How to Contribute:**
+- Check [GitHub Issues](https://github.com/ExcelDsigN-tech/soroban-sql-sync/issues) for current milestones
+- Link PRs to issues with "Closes #N" in commit messages
+- Include proof screenshots (build output, test results, migrations)
+- Follow Phase 1 → 2 → 3 progression for maximum impact
 
 -----

@@ -11,14 +11,21 @@
 # =============================================================================
 
 $ErrorActionPreference = "Stop"
+$PSNativeCommandUseErrorActionPreference = $false
 $REPO = "ExcelDsigN-tech/soroban-sql-sync"
 
 # ---------------------------------------------------------------------------
 # Helper
 # ---------------------------------------------------------------------------
 function New-Label($name, $color, $desc) {
-    gh label create $name --color $color --description $desc --repo $REPO 2>$null
+  & gh label create $name --color $color --description $desc --repo $REPO 2>$null
+  if ($LASTEXITCODE -eq 0) {
     Write-Host "  label: $name" -ForegroundColor DarkGray
+  }
+  else {
+    # Label may already exist or network may transiently fail; do not block issue creation.
+    Write-Host "  label: $name (skip)" -ForegroundColor DarkGray
+  }
 }
 
 # ---------------------------------------------------------------------------
