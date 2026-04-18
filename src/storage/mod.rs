@@ -3,5 +3,7 @@
 pub mod models;
 pub mod repository;
 
-pub use models::{Ledger, ContractEvent, TransactionMeta};
+#[allow(unused_imports)]
+pub use models::{ContractEvent, Ledger, TransactionMeta};
+#[allow(unused_imports)]
 pub use repository::EventRepository;

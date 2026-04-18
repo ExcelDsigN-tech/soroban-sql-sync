@@ -1,7 +1,9 @@
 //! REST API endpoints for health and event queries.
 
-pub mod handlers;
 pub mod errors;
+pub mod handlers;
 
-pub use handlers::create_router;
+#[allow(unused_imports)]
 pub use errors::ApiError;
+#[allow(unused_imports)]
+pub use handlers::create_router;
