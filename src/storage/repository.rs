@@ -1,6 +1,6 @@
-use sqlx::PgPool;
-use anyhow::Result;
 use crate::storage::models::ContractEvent;
+use anyhow::Result;
+use sqlx::PgPool;
 
 pub struct EventRepository {
     pool: PgPool,

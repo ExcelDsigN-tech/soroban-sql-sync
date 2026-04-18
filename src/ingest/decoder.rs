@@ -1,5 +1,5 @@
-use anyhow::Result;
 use crate::types::{DecodedEvent, RawEvent};
+use anyhow::Result;
 use tracing::warn;
 
 pub struct XdrDecoder;
