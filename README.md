@@ -1,28 +1,33 @@
-# ⚡ Soroban-SQL-Sync
+# 🌉 Soroban-SQL-Sync: A High-Performance Bridge Between Stellar/Soroban and Relational Databases
 
-**A high-performance bridge between Stellar/Soroban and Relational Databases.**
+`STELLAR` `SOROBAN` `RUST` `POSTGRESQL` `MIT`
 
-## 🌟 Project Overview
+**Soroban-SQL-Sync** is a modular, performance-first infrastructure tool designed to solve the data availability gap in the Stellar ecosystem. By indexing smart contract events and storing them in a relational database, developers get instant access to historical data, complex queries, and real-time analytics—without hitting RPC rate limits or waiting for slow sequential calls.
 
-**Soroban-SQL-Sync** is a modular, performance-first infrastructure tool designed to solve the data availability gap in the Stellar ecosystem. While smart contracts excel at execution, querying historical event data directly from an RPC node is inefficient for production-grade dApps.
+## 🛠️ Why Soroban-SQL-Sync?
 
-This project provides a robust solution for developers who need a structured, SQL-ready mirror of their smart contract's state and history, allowing for complex queries, aggregations, and real-time data visualization.
+While smart contracts excel at execution, querying historical event data directly from an RPC node is inefficient for production-grade dApps. This project provides a robust solution for developers who need a structured, SQL-ready mirror of their smart contract's state and history, enabling:
 
-## 🛠️ Technical Architecture
+- **Complex Queries & Aggregations** – Full SQL power for analytics and reporting
+- **Real-Time Data Visualization** – Dashboards and monitoring without RPC delays
+- **Production-Grade Data Availability** – Type-safe, consistent data with reorg resilience
 
-Built with a senior-level backend stack, this indexer is optimized for high-throughput and data integrity:
+## 🏗️ Technical Architecture
 
-  * **Language:** Rust 🦀
-  * **Concurrency:** Powered by the **Tokio async runtime** for non-blocking I/O.
-  * **Persistence:** Leveraging **sqlx** for type-safe, compile-time checked PostgreSQL interactions.
-  * **Protocol:** Directly interfaces with the Stellar Horizon and Soroban RPC nodes.
+Built with a senior-level backend stack optimized for high-throughput and data integrity:
 
-## 🚀 Key Features
+- **Language:** Rust 🦀
+- **Concurrency:** **Tokio async runtime** for non-blocking, high-performance I/O
+- **Persistence:** **sqlx** for type-safe, compile-time checked PostgreSQL interactions
+- **Protocol:** Direct integration with Stellar Horizon and Soroban RPC nodes
 
-  - **Live Event Indexing:** Catch and decode custom contract events (e.g., from SoroSusu or Stellar-Fluid).
-  - **Relational Storage:** Map raw XDR data into clean PostgreSQL tables.
-  - **Reorg Resilience:** Handles ledger rollbacks to maintain data consistency.
-  - **Developer CLI:** Manage sync offsets, database migrations, and health monitoring.
+## ✨ Core Features
+
+- **Live Event Indexing** – Catch and decode custom contract events in real-time
+- **Relational Storage** – Map raw XDR data into clean, queryable PostgreSQL tables
+- **Reorg Resilience** – Gracefully handle ledger rollbacks and maintain data consistency
+- **Developer CLI** – Manage sync offsets, run migrations, and monitor health
+- **Type-Safe** – Compile-time checked database queries prevent runtime errors
 
 ## 📦 Getting Started
 
@@ -89,6 +94,15 @@ This project is licensed under the **MIT License** - see the [LICENSE](./LICENSE
 This project is part of **Stellar Wave** initiative. We welcome contributions from the community.
 
 **How to Contribute:**
+1. **Fork the Project** – Create your own copy of the repository
+2. **Create your Feature Branch** – Use `git checkout -b feature/YourFeatureName` to work on a new feature
+3. **Commit your Changes** – Use `git commit -m "Add YourFeature"`
+4. **Push to the Branch** – Use `git push origin feature/YourFeatureName`
+5. **Open a Pull Request** – Submit your PR with a clear description
+
+For detailed contribution guidelines, see [CONTRIBUTING.md](./CONTRIBUTING.md).
+
+**Additional Guidelines:**
 - Check [GitHub Issues](https://github.com/ExcelDsigN-tech/soroban-sql-sync/issues) for current milestones
 - Link PRs to issues with "Closes #N" in commit messages
 - Include proof screenshots (build output, test results, migrations)
