@@ -1,6 +1,6 @@
 # 🌉 Soroban-SQL-Sync: A High-Performance Bridge Between Stellar/Soroban and Relational Databases
 
-`STELLAR` `SOROBAN` `RUST` `POSTGRESQL` `MIT`
+![STELLAR](https://img.shields.io/badge/STELLAR-1f4788?style=flat-square&logo=stellar) ![SOROBAN](https://img.shields.io/badge/SOROBAN%20(RUST)-FF6B35?style=flat-square) ![POSTGRESQL](https://img.shields.io/badge/POSTGRESQL-336791?style=flat-square&logo=postgresql) ![LICENSE](https://img.shields.io/badge/LICENSE-MIT-90EE90?style=flat-square)
 
 **Soroban-SQL-Sync** is a modular, performance-first infrastructure tool designed to solve the data availability gap in the Stellar ecosystem. By indexing smart contract events and storing them in a relational database, developers get instant access to historical data, complex queries, and real-time analytics—without hitting RPC rate limits or waiting for slow sequential calls.
 
@@ -76,14 +76,28 @@ Built with a senior-level backend stack optimized for high-throughput and data i
 
 ## 📋 Project Roadmap
 
-See [ROADMAP.md](./ROADMAP.md) for detailed phase breakdown and [GitHub Issues](https://github.com/ExcelDsigN-tech/soroban-sql-sync/issues) for current work.
 
-### Phase 1: Foundation (In Progress)
-- Core project architecture and dependency setup
-- PostgreSQL schema design and migrations
-- Smart contract event schema specification
 
-See [PHASE_1_LAUNCH.md](./PHASE_1_LAUNCH.md) for deployment instructions.
+### Phase 1: Foundation (MVP)
+- ☐ Core project architecture and dependency setup
+- ☐ PostgreSQL schema design and migrations
+- ☐ Smart contract event schema specification
+- ☐ Basic event indexing pipeline
+
+### Phase 2: Live Indexing
+- ☐ Real-time contract event listener
+- ☐ XDR decoder for custom event types
+- ☐ Database write optimization
+
+### Phase 3: Analytics & Queries
+- ☐ SQL query interface for historical data
+- ☐ Reorg resilience and ledger rollback handling
+- ☐ Performance monitoring and health checks
+
+### Phase 4: Production Scale
+- ☐ Mainnet deployment framework
+- ☐ High-throughput stress testing
+- ☐ Multi-contract event aggregation
 
 ## ⚖️ License
 
