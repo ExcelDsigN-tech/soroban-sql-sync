@@ -84,10 +84,11 @@ impl EventEmitter {
 
 #[cfg(test)]
 mod tests {
-    use super::{EventEmitter, EventEmitterClient};
+    use super::{ApprovalPayload, AssetAmount, EventEmitter, EventEmitterClient, SwapPayload};
     use soroban_sdk::{
+        symbol_short,
         testutils::{Address as _, Events},
-        Address, Env, String,
+        Address, Env, String, Symbol, TryFromVal, Val, Vec as SorobanVec,
     };
 
     fn setup() -> (Env, EventEmitterClient<'static>) {
@@ -95,6 +96,13 @@ mod tests {
         let contract_id = env.register(EventEmitter, ());
         let client = EventEmitterClient::new(&env, &contract_id);
         (env, client)
+    }
+
+    fn only_event(env: &Env) -> (SorobanVec<Val>, Val) {
+        let events = env.events().all();
+        assert_eq!(events.len(), 1, "sample contract should publish one event");
+        let (_, topics, data) = events.into_iter().next().unwrap();
+        (topics, data)
     }
 
     #[test]
@@ -106,10 +114,22 @@ mod tests {
 
         client.emit_transfer(&from, &to, &usdc, &10_000_000);
 
-        assert!(
-            !env.events().all().is_empty(),
-            "sample contract should publish the transfer event"
+        let (topics, data) = only_event(&env);
+        assert_eq!(
+            Symbol::try_from_val(&env, &topics.get_unchecked(0)).unwrap(),
+            symbol_short!("transfer")
         );
+        assert_eq!(
+            Address::try_from_val(&env, &topics.get_unchecked(1)).unwrap(),
+            from
+        );
+        assert_eq!(
+            Address::try_from_val(&env, &topics.get_unchecked(2)).unwrap(),
+            to
+        );
+        let payload = AssetAmount::try_from_val(&env, &data).unwrap();
+        assert_eq!(payload.asset, usdc);
+        assert_eq!(payload.amount, 10_000_000);
     }
 
     #[test]
@@ -120,10 +140,18 @@ mod tests {
 
         client.emit_mint(&to, &usdc, &50_000_000);
 
-        assert!(
-            !env.events().all().is_empty(),
-            "sample contract should publish the mint event"
+        let (topics, data) = only_event(&env);
+        assert_eq!(
+            Symbol::try_from_val(&env, &topics.get_unchecked(0)).unwrap(),
+            symbol_short!("mint")
         );
+        assert_eq!(
+            Address::try_from_val(&env, &topics.get_unchecked(1)).unwrap(),
+            to
+        );
+        let payload = AssetAmount::try_from_val(&env, &data).unwrap();
+        assert_eq!(payload.asset, usdc);
+        assert_eq!(payload.amount, 50_000_000);
     }
 
     #[test]
@@ -135,10 +163,27 @@ mod tests {
 
         client.emit_swap(&trader, &usdc, &xlm, &10_000_000, &9_960_000, &50);
 
-        assert!(
-            !env.events().all().is_empty(),
-            "sample contract should publish the swap event"
+        let (topics, data) = only_event(&env);
+        assert_eq!(
+            Symbol::try_from_val(&env, &topics.get_unchecked(0)).unwrap(),
+            symbol_short!("swap")
         );
+        assert_eq!(
+            Address::try_from_val(&env, &topics.get_unchecked(1)).unwrap(),
+            trader
+        );
+        assert_eq!(
+            String::try_from_val(&env, &topics.get_unchecked(2)).unwrap(),
+            usdc
+        );
+        assert_eq!(
+            String::try_from_val(&env, &topics.get_unchecked(3)).unwrap(),
+            xlm
+        );
+        let payload = SwapPayload::try_from_val(&env, &data).unwrap();
+        assert_eq!(payload.amount_in, 10_000_000);
+        assert_eq!(payload.amount_out, 9_960_000);
+        assert_eq!(payload.max_slippage_bps, 50);
     }
 
     #[test]
@@ -150,9 +195,22 @@ mod tests {
 
         client.emit_approve(&from, &spender, &usdc, &25_000_000, &1_234_567);
 
-        assert!(
-            !env.events().all().is_empty(),
-            "sample contract should publish the approve event"
+        let (topics, data) = only_event(&env);
+        assert_eq!(
+            Symbol::try_from_val(&env, &topics.get_unchecked(0)).unwrap(),
+            symbol_short!("approve")
         );
+        assert_eq!(
+            Address::try_from_val(&env, &topics.get_unchecked(1)).unwrap(),
+            from
+        );
+        assert_eq!(
+            Address::try_from_val(&env, &topics.get_unchecked(2)).unwrap(),
+            spender
+        );
+        let payload = ApprovalPayload::try_from_val(&env, &data).unwrap();
+        assert_eq!(payload.asset, usdc);
+        assert_eq!(payload.amount, 25_000_000);
+        assert_eq!(payload.expires_at_ledger, 1_234_567);
     }
 }
