@@ -1,0 +1,40 @@
+[
+  {
+    "event_type": "transfer",
+    "topic": ["transfer", "from", "to"],
+    "xdr_payload": "test_snapshots/contracts/event_emitter/tests/emits_transfer_event.1.json",
+    "data": {
+      "asset": "USDC",
+      "amount": "10000000"
+    }
+  },
+  {
+    "event_type": "mint",
+    "topic": ["mint", "to"],
+    "xdr_payload": "test_snapshots/contracts/event_emitter/tests/emits_mint_event.1.json",
+    "data": {
+      "asset": "USDC",
+      "amount": "50000000"
+    }
+  },
+  {
+    "event_type": "swap",
+    "topic": ["swap", "trader", "asset_in", "asset_out"],
+    "xdr_payload": "test_snapshots/contracts/event_emitter/tests/emits_swap_event.1.json",
+    "data": {
+      "amount_in": "10000000",
+      "amount_out": "9960000",
+      "max_slippage_bps": 50
+    }
+  },
+  {
+    "event_type": "approve",
+    "topic": ["approve", "owner", "spender"],
+    "xdr_payload": "test_snapshots/contracts/event_emitter/tests/emits_approve_event.1.json",
+    "data": {
+      "asset": "USDC",
+      "amount": "25000000",
+      "expires_at_ledger": 1234567
+    }
+  }
+]

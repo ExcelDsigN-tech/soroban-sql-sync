@@ -28,6 +28,8 @@ Built with a senior-level backend stack optimized for high-throughput and data i
 - **Reorg Resilience** – Gracefully handle ledger rollbacks and maintain data consistency
 - **Developer CLI** – Manage sync offsets, run migrations, and monitor health
 - **Type-Safe** – Compile-time checked database queries prevent runtime errors
+- **Canonical Event Schema** – Shared Soroban event contract documented in
+  [docs/event-schema.md](./docs/event-schema.md) with sample event snapshots
 
 ## 📦 Getting Started
 
@@ -82,6 +84,7 @@ Built with a senior-level backend stack optimized for high-throughput and data i
 - ☐ Core project architecture and dependency setup
 - ☐ PostgreSQL schema design and migrations
 - ☐ Smart contract event schema specification
+- ☐ Sample event emitter contract and fixture metadata
 - ☐ Basic event indexing pipeline
 
 ### Phase 2: Live Indexing

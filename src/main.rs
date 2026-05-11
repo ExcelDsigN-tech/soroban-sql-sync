@@ -2,6 +2,7 @@
 
 mod api;
 mod config;
+mod contracts;
 mod ingest;
 mod storage;
 mod types;

@@ -28,6 +28,9 @@ thiserror = "1.0"
 axum = "0.7"
 tower = "0.4"
 
+[dev-dependencies]
+soroban-sdk = { version = "22.0.0", features = ["testutils"] }
+
 [profile.release]
 opt-level = "z"
 overflow-checks = true
