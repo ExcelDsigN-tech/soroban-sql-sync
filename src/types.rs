@@ -24,7 +24,7 @@ pub struct HealthResponse {
     pub status: String,
     pub database: String,
     pub ingestion: String,
-    pub latest_ledger: Option<u64>,
+    pub latest_ledger: Option<i64>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]

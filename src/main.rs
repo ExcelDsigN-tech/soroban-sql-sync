@@ -7,6 +7,7 @@ mod storage;
 mod types;
 
 use anyhow::Result;
+use tokio::net::TcpListener;
 use tracing::{error, info};
 
 #[tokio::main]
@@ -39,8 +40,11 @@ async fn main() -> Result<()> {
 
     info!("Database migrations completed successfully");
 
-    // Placeholder for event listener, API server, etc.
-    info!("Phase 1 scaffold complete. Ready for Phase 2 implementation.");
+    let app = api::create_router(db_pool.clone());
+    let listener = TcpListener::bind(config.api_addr).await?;
+
+    info!("REST API listening on http://{}", config.api_addr);
+    axum::serve(listener, app).await?;
 
     Ok(())
 }

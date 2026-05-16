@@ -2638,6 +2638,7 @@ name = "soroban-sql-sync"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "async-trait",
  "axum",
  "chrono",
  "dotenvy",
@@ -2648,7 +2649,7 @@ dependencies = [
  "stellar-rpc-client",
  "thiserror 1.0.69",
  "tokio",
- "tower 0.4.13",
+ "tower 0.5.3",
  "tracing",
  "tracing-subscriber",
 ]
