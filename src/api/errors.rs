@@ -29,11 +29,14 @@ impl IntoResponse for ApiError {
                 (StatusCode::BAD_REQUEST, "bad_request", message.clone())
             }
             ApiError::NotFound(message) => (StatusCode::NOT_FOUND, "not_found", message.clone()),
-            ApiError::Internal(_) => (
-                StatusCode::INTERNAL_SERVER_ERROR,
-                "internal_error",
-                self.to_string(),
-            ),
+            ApiError::Internal(error) => {
+                tracing::error!(?error, "internal API error");
+                (
+                    StatusCode::INTERNAL_SERVER_ERROR,
+                    "internal_error",
+                    "An internal server error occurred".to_string(),
+                )
+            }
         };
 
         (status, Json(ErrorResponse { error: message, code })).into_response()

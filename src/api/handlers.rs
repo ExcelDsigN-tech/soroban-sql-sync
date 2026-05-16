@@ -111,7 +111,12 @@ struct EventListResponse {
 }
 
 async fn health(State(state): State<ApiState>) -> Result<Json<HealthResponse>, ApiError> {
-    let latest_ledger = state.store.latest_ledger().await.map_err(ApiError::Internal)?;
+    let latest_ledger = state
+        .store
+        .latest_ledger()
+        .await
+        .map_err(ApiError::Internal)?
+        .and_then(|ledger| u64::try_from(ledger).ok());
 
     Ok(Json(HealthResponse {
         status: "ok".to_string(),

@@ -51,6 +51,7 @@ mod tests {
 
     #[test]
     fn test_config_from_env() {
+        env::remove_var("API_ADDR");
         env::set_var("DATABASE_URL", "postgres://localhost/test");
         env::set_var("SOROBAN_RPC_URL", "https://soroban-rpc.stellar.org");
         env::set_var("CONTRACT_IDS", "CA123,CA456");
