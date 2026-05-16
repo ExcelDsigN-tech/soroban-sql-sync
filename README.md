@@ -74,6 +74,70 @@ Built with a senior-level backend stack optimized for high-throughput and data i
     cargo run
     ```
 
+### REST API
+
+The service starts an Axum API server on `API_ADDR` (`127.0.0.1:3000` by default).
+
+#### `GET /health`
+
+Returns API, database, ingestion, and latest synced ledger status.
+
+Example response:
+```json
+{
+  "status": "ok",
+  "database": "connected",
+  "ingestion": "idle",
+  "latest_ledger": 123456
+}
+```
+
+#### `GET /events/:contract_id`
+
+Returns indexed contract events from PostgreSQL.
+
+Query parameters:
+- `page` - 1-based page number, defaults to `1`
+- `page_size` - items per page, defaults to `50`, maximum `500`
+- `from_ledger` - optional lower ledger bound
+- `to_ledger` - optional upper ledger bound
+- `event_type` - optional event type filter, such as `transfer`, `mint`, `swap`, or `approve`
+
+Example request:
+```bash
+curl "http://127.0.0.1:3000/events/CCONTRACT...?from_ledger=100&page=1&page_size=50&event_type=transfer"
+```
+
+Example response:
+```json
+{
+  "contract_id": "CCONTRACT...",
+  "total": 1,
+  "page": 1,
+  "page_size": 50,
+  "events": [
+    {
+      "id": 1,
+      "ledger_seq": 123456,
+      "tx_hash": "abc123",
+      "contract_id": "CCONTRACT...",
+      "event_type": "transfer",
+      "topics": "[\"transfer\"]",
+      "data": { "amount": "10000000" },
+      "created_at": "2026-01-01T00:00:00Z"
+    }
+  ]
+}
+```
+
+Error responses use a consistent JSON shape:
+```json
+{
+  "error": "page must be greater than or equal to 1",
+  "code": "bad_request"
+}
+```
+
 ## 📋 Project Roadmap
 
 

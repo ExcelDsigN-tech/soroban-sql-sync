@@ -1,11 +1,13 @@
-use anyhow::{bail, Result};
+use anyhow::{bail, Context, Result};
 use std::env;
+use std::net::SocketAddr;
 
 #[derive(Debug, Clone)]
 pub struct Config {
     pub database_url: String,
     pub soroban_rpc_url: String,
     pub contract_ids: Vec<String>,
+    pub api_addr: SocketAddr,
 }
 
 impl Config {
@@ -29,10 +31,16 @@ impl Config {
             bail!("CONTRACT_IDS must contain at least one contract ID");
         }
 
+        let api_addr = env::var("API_ADDR")
+            .unwrap_or_else(|_| "127.0.0.1:3000".to_string())
+            .parse()
+            .context("API_ADDR must be a valid socket address, e.g. 127.0.0.1:3000")?;
+
         Ok(Config {
             database_url,
             soroban_rpc_url,
             contract_ids,
+            api_addr,
         })
     }
 }
@@ -43,6 +51,7 @@ mod tests {
 
     #[test]
     fn test_config_from_env() {
+        env::remove_var("API_ADDR");
         env::set_var("DATABASE_URL", "postgres://localhost/test");
         env::set_var("SOROBAN_RPC_URL", "https://soroban-rpc.stellar.org");
         env::set_var("CONTRACT_IDS", "CA123,CA456");
@@ -52,5 +61,6 @@ mod tests {
 
         let cfg = config.unwrap();
         assert_eq!(cfg.contract_ids.len(), 2);
+        assert_eq!(cfg.api_addr.to_string(), "127.0.0.1:3000");
     }
 }
