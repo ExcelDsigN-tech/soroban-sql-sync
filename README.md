@@ -29,6 +29,61 @@ Built with a senior-level backend stack optimized for high-throughput and data i
 - **Developer CLI** – Manage sync offsets, run migrations, and monitor health
 - **Type-Safe** – Compile-time checked database queries prevent runtime errors
 
+## REST API
+
+The Axum API exposes indexed data for dashboards and external consumers.
+
+### `GET /health`
+
+Returns database and ingestion status plus the latest indexed ledger:
+
+```json
+{
+  "status": "ok",
+  "database": "ok",
+  "ingestion": "ready",
+  "latest_ledger": 1234567
+}
+```
+
+### `GET /events/:contract_id`
+
+Returns indexed events for a contract with pagination and optional filters.
+
+Query parameters:
+
+- `page` - page number, defaults to `1`
+- `page_size` - page size, defaults to `50`, capped at `100`
+- `from_ledger` - lower ledger bound
+- `to_ledger` - upper ledger bound
+- `event_type` - exact event type filter
+
+Example:
+
+```bash
+curl "http://localhost:3000/events/CBIELTK6YBZJU5UP2WWQEUCYKLPU6AUNZ2BQ4WWFEIE3USCIHMXQDAMA?page=1&page_size=25&event_type=transfer"
+```
+
+Response:
+
+```json
+{
+  "events": [],
+  "total": 0,
+  "page": 1,
+  "page_size": 25
+}
+```
+
+Errors use a consistent shape:
+
+```json
+{
+  "error": "Invalid request: page must be at least 1",
+  "code": "bad_request"
+}
+```
+
 ## 📦 Getting Started
 
 ### Prerequisites
